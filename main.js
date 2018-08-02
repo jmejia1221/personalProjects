@@ -28,11 +28,43 @@ function _handleError(err){
 	console.log(`Request failed: ${err}`) 
 }
 
-let people = function(response) {
+let person = function(persons) {
+    return `
+        <h4>${persons.name}</h4>
+        <ul>
+            <li>${persons.height}</li>
+            <li>${persons.mass}</li>
+            <li>${persons.hair_color}</li>
+            <li>${persons.skin_color}</li>
+        </ul>
+    `;
+}
+
+var pageSize = 5;
+var pageNum = 1;
+
+let nextPage = function() {
+    pageNum++;
+    console.log(swApi + '?page=' + pageNum);
+    loadData(swApi + '?page=' + pageNum);
+    people()
+}
+
+let previousPage = function() {
+    pageNum--;
+    loadData(swApi + '?page=' + pageNum);
+    console.log(swApi + '?page=' + pageNum);
+}
+
+let  people = function(response) {
     let data = response
-    let peopleLen = data.results.length
+    let peopleLen = data.results
     console.log(data.results[0])
-    
+
+    document.getElementById('people').innerHTML = `
+        ${peopleLen.map(person).join("")}
+    `
+    // console.log(peopleLen.map(person).join(""))
     return get(data.results[0].homeworld)
 }
 
@@ -41,10 +73,11 @@ let homeworld = function(homeworld) {
     console.log(homeworld)
 }
 
-get(swApi)
-    .then(people)
-    .then(homeworld)
-    .catch((err) => _handleError(err))
+let loadData = function(mainApi) {
+    get(mainApi)
+        .then(people)
+        .then(homeworld)
+        .catch((err) => _handleError(err))
+}
 
-
-// const main = document.getElementById('content').innerHTML = scope.data;
+loadData(swApi)
