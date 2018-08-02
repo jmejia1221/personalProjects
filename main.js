@@ -28,6 +28,7 @@ function _handleError(err){
 	console.log(`Request failed: ${err}`) 
 }
 
+// Templates
 let person = function(persons) {
     return `
         <h4>${persons.name}</h4>
@@ -40,11 +41,11 @@ let person = function(persons) {
     `;
 }
 
+// Pagination
 const pageSize = 9;
 var pageNum = 1;
 
 let totalPage = function(num, size) {
-    console.log(size)
     let previousButton = document.getElementById('previous');
     let nextButton = document.getElementById('next'); 
 
@@ -84,23 +85,22 @@ let callItemPage = function(num) {
 
 let nextPage = function() {
     pageNum++;
-    console.log(swApi + '?page=' + pageNum);
     loadData(swApi + '?page=' + pageNum, pageSize);
 }
 
 let previousPage = function() {
     pageNum--;
     loadData(swApi + '?page=' + pageNum, pageSize);
-    console.log(swApi + '?page=' + pageNum);
 }
 
+// Call people
 let  people = function(response) {
     let data = response
-    let peopleLen = data.results
+    let people = data.results
     console.log(data)
 
     document.getElementById('people').innerHTML = `
-        ${peopleLen.map(person).join("")}
+        ${people.map(person).join("")}
     `
     return get(data.results[0].homeworld)
 }
@@ -121,7 +121,6 @@ let loadData = function(mainApi, size) {
 
     totalPage(pageNum, size);
     for ( i = 1; i <= pageSize; ++i) {
-        // console.log(i);
         numPage.push(i)
     }
     
