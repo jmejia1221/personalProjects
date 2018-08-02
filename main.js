@@ -40,31 +40,68 @@ let person = function(persons) {
     `;
 }
 
-var pageSize = 5;
+const pageSize = 9;
 var pageNum = 1;
+
+let totalPage = function(num, size) {
+    console.log(size)
+    let previousButton = document.getElementById('previous');
+    let nextButton = document.getElementById('next'); 
+
+    if (num === 1) {
+        previousButton.setAttribute("disabled", "");
+    } else {
+        previousButton.removeAttribute("disabled", "");
+    }
+
+    if (num >= size) {
+        nextButton.setAttribute("disabled", "");
+    } else {
+        nextButton.removeAttribute("disabled", "");
+    }
+}
+
+let itemsPage = function(numbers) {
+    return `
+        <li id="item-${numbers}" onclick="callItemPage(${numbers})">${numbers}</li>
+    `
+}
+
+let activatedItem = function(num) {
+    let number = num;
+
+    let itemActivate = document.getElementById('item-' + num);
+    itemActivate.classList.add("activated");
+    if (number !== num) {
+        itemActivate.classList.remove("activated");
+    }
+}
+
+let callItemPage = function(num) {
+    loadData(swApi + '?page=' + num, pageSize);
+    activatedItem(num)
+}
 
 let nextPage = function() {
     pageNum++;
     console.log(swApi + '?page=' + pageNum);
-    loadData(swApi + '?page=' + pageNum);
-    people()
+    loadData(swApi + '?page=' + pageNum, pageSize);
 }
 
 let previousPage = function() {
     pageNum--;
-    loadData(swApi + '?page=' + pageNum);
+    loadData(swApi + '?page=' + pageNum, pageSize);
     console.log(swApi + '?page=' + pageNum);
 }
 
 let  people = function(response) {
     let data = response
     let peopleLen = data.results
-    console.log(data.results[0])
+    console.log(data)
 
     document.getElementById('people').innerHTML = `
         ${peopleLen.map(person).join("")}
     `
-    // console.log(peopleLen.map(person).join(""))
     return get(data.results[0].homeworld)
 }
 
@@ -73,11 +110,27 @@ let homeworld = function(homeworld) {
     console.log(homeworld)
 }
 
-let loadData = function(mainApi) {
+let loadData = function(mainApi, size) {
+    let countNumbers = document.getElementById('countNumbers');
+    let numPage = [];
+
     get(mainApi)
         .then(people)
         .then(homeworld)
         .catch((err) => _handleError(err))
+
+    totalPage(pageNum, size);
+    for ( i = 1; i <= pageSize; ++i) {
+        // console.log(i);
+        numPage.push(i)
+    }
+    
+    countNumbers.innerHTML = `
+        <ul>
+            ${numPage.map(itemsPage).join("")}
+        </ul>
+    `;
 }
 
-loadData(swApi)
+loadData(swApi, pageSize)
+activatedItem(pageNum)
