@@ -47,7 +47,7 @@ let person = function(persons) {
 
 let searchPeople = function() {
     let inputSearch = document.getElementById("search").value
-    console.log(inputSearch);
+
     if (inputSearch !== '') {
         loadData(swApi + '?search=' + inputSearch, 0)
     } else {
@@ -55,11 +55,19 @@ let searchPeople = function() {
     }
 }
 
+window.addEventListener('keydown', (e) => {
+    if (e.defaultPrevented) {
+        return
+    }
+
+    if (e.keyCode === 13) {
+        searchPeople()
+    }
+})
+
 // Pagination
 
 let totalPage = function(num, size) {
-    console.log(num)
-    console.log(size)
     let previousButton = document.getElementById('previous');
     let nextButton = document.getElementById('next'); 
     
@@ -133,7 +141,6 @@ let previousPage = function() {
 let  people = function(response) {
     let data = response
     let people = data.results
-    console.log(data)
 
     document.getElementById('people').innerHTML = `
         ${people.map(person).join("")}
