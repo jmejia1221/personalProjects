@@ -13,7 +13,8 @@
 
     <main id="content">
         <div class="search">
-            <input type="text" placeholder="Searh Star Wars..." onfocus="searchFocus()" onfocusout="toggleSearchIcon()" id="search">
+            <input type="text" placeholder="Searh Star Wars..." onkeyup="keySearch()" onfocus="searchFocus()" onfocusout="toggleSearchIcon()" id="search">
+            <div id="searchIn" class="searchIn"></div>
             <div class="search__button">
                 <button id="search-people" class="search-people visible" onclick="searchPeople()"></button>
                 <button id="clear-input" class="clear-input" onclick="clearInput()"></button>

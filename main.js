@@ -48,6 +48,14 @@ let person = function(persons) {
     `;
 }
 
+let dataPerson = function(persons) {
+    return `
+        <div class="building-block">
+            <h4 class="building-block__name">${persons.name}</h4>
+        </div>
+        `
+}
+
 // Search
 
 let searchPeople = function() {
@@ -72,10 +80,10 @@ window.addEventListener('keydown', (e) => {
 })
 
 let searchFocus = function() {
-    let searchInput = document.getElementById('search-people');
+    let searchIcon = document.getElementById('search-people');
     let clearInput = document.getElementById('clear-input');
 
-    searchInput.classList.remove('visible');
+    searchIcon.classList.remove('visible');
     clearInput.classList.add('visible');
 }
 
@@ -94,13 +102,23 @@ let clearInput = function() {
 }
 
 let toggleSearchIcon = function() {
-    let searchInput = document.getElementById('search-people');
+    let searchIcon = document.getElementById('search-people');
     let clearInput = document.getElementById('clear-input');
 
     setTimeout(() => {
-        searchInput.classList.add('visible');
+        searchIcon.classList.add('visible');
         clearInput.classList.remove('visible');
     }, 100)
+}
+
+let keySearch = function() {
+    setTimeout(() => {
+        let search = document.getElementById('search').value;
+        let searchIn = document.getElementById('searchIn');
+        searchData(swApi + '?search=' + search, 0)
+    }, 1000)
+    
+    console.log(searchData(swApi + '?search=' + search, 0))
 }
 // Pagination
 
@@ -185,9 +203,24 @@ let  people = function(response) {
     return get(data.results[0].homeworld)
 }
 
+let searchPeopleData = function(response) {
+    let data = response;
+    let people = data.results;
+
+    document.getElementById('searchIn').innerHTML = `
+        ${people.map(dataPerson).join("")}
+    `
+}
+
 let homeworld = function(homeworld) {
     homeworld = homeworld
     console.log(homeworld)
+}
+
+let searchData = function(mainApi, size, itemNum) {
+    get(mainApi)
+        .then(searchPeopleData)
+        .catch((err) => _handleError(err))
 }
 
 let loadData = function(mainApi, size, itemNum) {
