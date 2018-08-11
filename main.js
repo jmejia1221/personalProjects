@@ -1,4 +1,6 @@
 const swApi = 'https://www.swapi.co/api/people/'
+const pageSize = 9;
+var pageNum = 1;
 
 const get = function(url) {
     return new Promise ((resolve, reject) => {
@@ -41,24 +43,56 @@ let person = function(persons) {
     `;
 }
 
+// Search
+
+let searchPeople = function() {
+    let inputSearch = document.getElementById("search").value
+    console.log(inputSearch);
+    if (inputSearch !== '') {
+        loadData(swApi + '?search=' + inputSearch, 0)
+    } else {
+        loadData(swApi + '?search=' + inputSearch, pageSize)
+    }
+}
+
 // Pagination
-const pageSize = 9;
-var pageNum = 1;
 
 let totalPage = function(num, size) {
+    console.log(num)
+    console.log(size)
     let previousButton = document.getElementById('previous');
     let nextButton = document.getElementById('next'); 
-
+    
     if (num === 1) {
         previousButton.setAttribute("disabled", "");
     } else {
         previousButton.removeAttribute("disabled", "");
     }
 
-    if (num >= size) {
+    if (num === size) {
         nextButton.setAttribute("disabled", "");
     } else {
         nextButton.removeAttribute("disabled", "");
+    }
+}
+
+let createPaginationList = function(size) {
+    if (size !== 0) {
+        let numPage = [];
+        let countNumbers = document.getElementById('countNumbers');
+
+        for ( i = 1; i <= pageSize; ++i) {
+            numPage.push(i)
+        }
+        countNumbers.innerHTML = `
+            <button id="previous" onclick="previousPage()">Previous</button>
+            <ul>
+                ${numPage.map(itemsPage).join("")}
+            </ul>
+            <button id="next" onclick="nextPage()">next</button>
+        `;
+    } else {
+        countNumbers.innerHTML = ""
     }
 }
 
@@ -70,8 +104,8 @@ let itemsPage = function(numbers) {
 
 let activatedItem = function(num) {
     let number = num;
-
     let itemActivate = document.getElementById('item-' + num);
+
     itemActivate.classList.add("activated");
     if (number !== num) {
         itemActivate.classList.remove("activated");
@@ -79,18 +113,20 @@ let activatedItem = function(num) {
 }
 
 let callItemPage = function(num) {
-    loadData(swApi + '?page=' + num, pageSize);
+    loadData(swApi + '?page=' + num, pageSize, num);
     activatedItem(num)
 }
 
 let nextPage = function() {
     pageNum++;
     loadData(swApi + '?page=' + pageNum, pageSize);
+    activatedItem(pageNum);
 }
 
 let previousPage = function() {
     pageNum--;
     loadData(swApi + '?page=' + pageNum, pageSize);
+    activatedItem(pageNum);
 }
 
 // Call people
@@ -110,25 +146,21 @@ let homeworld = function(homeworld) {
     console.log(homeworld)
 }
 
-let loadData = function(mainApi, size) {
-    let countNumbers = document.getElementById('countNumbers');
-    let numPage = [];
+let loadData = function(mainApi, size, itemNum) {
 
     get(mainApi)
         .then(people)
         .then(homeworld)
         .catch((err) => _handleError(err))
 
-    totalPage(pageNum, size);
-    for ( i = 1; i <= pageSize; ++i) {
-        numPage.push(i)
+    createPaginationList(size);
+
+    if (itemNum) {
+        pageNum = itemNum
+        totalPage(pageNum, size);
+    } else {
+        if (size !== 0) totalPage(pageNum, size);
     }
-    
-    countNumbers.innerHTML = `
-        <ul>
-            ${numPage.map(itemsPage).join("")}
-        </ul>
-    `;
 }
 
 loadData(swApi, pageSize)
