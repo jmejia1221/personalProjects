@@ -42,7 +42,7 @@ ul > li {
     flex-flow: row wrap
 }
 .search {
-    margin: 30px 0;
+    margin: 30px 10px;
     display: flex;
     justify-content: center;
 }
@@ -95,7 +95,6 @@ ul > li {
 }
 .building-block__info li {
     padding: 3px 0;
-    /* border-bottom: 1px solid #d2872c;  */
 }
 .building-block__info li strong {
     color: var(--orange); 
@@ -112,15 +111,53 @@ ul > li {
 }
 .pagination ul li {
     width: 30px;
+    padding: 10px;
     cursor: pointer;
     text-align: center;
+    position: relative;
 }
 .pagination ul li.activate {
     color: var(--white);
-    background: var(--dark-blue);
-    transform: scale(1.1);
+    transform: scale(1.2);
+}
+.pagination ul li.activate:after {
+    content: '';
+    bottom: 0;
+    z-index: -1;
+    opacity: .5;
+    transform: scale(1.5);
+    position: absolute;
+    width: 40px;
+    background-size: 1000% 200%;
+    height: 40px;
+    left: calc(50% - 20px);
+    pointer-events: none;
+    background-position: 66.66667% 0%;
+    background-image: url(assets/sprite-icons.png);
 }
 .pagination button {
+    padding: 10px 20px;
+    background: transparent;
     cursor: pointer;
     border: none;
+    position: relative;
+}
+.pagination .next:after,
+.pagination .previous:after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    background-size: 1000% 200%;
+    height: 50px;
+    left: 0;
+    background-position: 11.11111% 0%;
+    background-image: url(assets/sprite-icons.png);
+}
+.pagination .next:after {
+    bottom: -5px;
+}
+.pagination .previous:after {
+    transform: rotate(-180deg);
+    bottom: -5px;
+
 }

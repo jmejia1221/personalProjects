@@ -98,11 +98,11 @@ let createPaginationList = function(size) {
             numPage.push(i)
         }
         countNumbers.innerHTML = `
-            <button id="previous" onclick="previousPage()">Previous</button>
+            <button id="previous" class="previous" onclick="previousPage()"></button>
             <ul>
                 ${numPage.map(itemsPage).join("")}
             </ul>
-            <button id="next" onclick="nextPage()">next</button>
+            <button id="next" class="next" onclick="nextPage()"></button>
         `;
     } else {
         countNumbers.innerHTML = ""
