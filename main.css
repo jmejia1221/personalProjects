@@ -1,10 +1,24 @@
+*{
+    box-sizing: border-box;
+}
+:root {
+    --white: #fff;
+    --main-bg-color: #151515;
+    --yellow: #edec51;
+    --light-aquamarine: #358a8d; 
+    --orange: #d2872c; 
+    --light-blue: #568ed4;
+    --dark-blue: #3273c5;
+    /* color: #75933d; */
+}
 body, html {
     margin: 0;
     padding: 0;
     font-size: 16px;
     font-family: Helvetica, sans-serif, Arial;
-    color: #fff;
-    background-color: #151515;
+    color: rgb(219, 219, 219);
+    background-color: var(--main-bg-color);
+    /* background: rgba(40, 39, 39, 1); */
 }
 ul, h1, h2, h3, h4 {
     margin: 0;
@@ -13,13 +27,12 @@ ul, h1, h2, h3, h4 {
 ul > li {
     list-style: none;
 }
-
 .title {
     text-indent: -99999px;
     background-image: url(assets/swapi-logo.png);
     width: 350px;
     height: 40px;
-    margin: 50px auto 0;
+    margin: 50px auto;
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
@@ -27,13 +40,6 @@ ul > li {
     display: flex;
     flex-wrap: wrap;
     flex-flow: row wrap
-}
-.building-block {
-    width: 200px;
-    margin: 10px;
-    padding: 10px;
-    flex-grow: 1;
-    background: #ccc;
 }
 .search {
     margin: 30px 0;
@@ -49,14 +55,72 @@ ul > li {
     border: none;
     cursor: pointer;
 }
+.building-block {
+    width: 200px;
+    margin: 10px;
+    padding: 15px;
+    flex-grow: 1;
+    position: relative;
+    border-top: .125rem solid var(--dark-blue);
+    background: linear-gradient(
+                rgba(0, 0, 0, .9),
+                rgba(0, 0, 0, .5)
+                ),
+                url(assets/bg-stars.jpg);
+    background-repeat: no-repeat;
+    background-position: left top,right top;
+    background-attachment: fixed;
+    background-size: auto,auto;
+}
+.building-block:after {
+    content: '';
+    border-bottom: 4px solid var(--dark-blue);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    height: 0;
+    position: absolute;
+    top: 0px;
+    right: calc(50% - 30px);
+    transform: rotate(180deg);
+    width: 60px;
+}
+.building-block__name {
+    color: var(--yellow);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+.building-block__info {
+    font-size: .9rem;
+}
+.building-block__info li {
+    padding: 3px 0;
+    /* border-bottom: 1px solid #d2872c;  */
+}
+.building-block__info li strong {
+    color: var(--orange); 
+}
 .pagination {
     display: flex;
+    margin-top: 50px;
     justify-content: center;
 }
 .pagination ul {
     display: flex;
+    margin: 0 10px;
     justify-content: center;
 }
 .pagination ul li {
     width: 30px;
+    cursor: pointer;
+    text-align: center;
+}
+.pagination ul li.activate {
+    color: var(--white);
+    background: var(--dark-blue);
+    transform: scale(1.1);
+}
+.pagination button {
+    cursor: pointer;
+    border: none;
 }

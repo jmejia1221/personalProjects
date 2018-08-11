@@ -32,14 +32,17 @@ function _handleError(err){
 
 // Templates
 let person = function(persons) {
+    console.log(persons);
     return `
         <div class="building-block">
-            <h4>${persons.name}</h4>
-            <ul>
-                <li>${persons.height}</li>
-                <li>${persons.mass}</li>
-                <li>${persons.hair_color}</li>
-                <li>${persons.skin_color}</li>
+            <h4 class="building-block__name">${persons.name}</h4>
+            <ul class="building-block__info">
+                <li><strong>Birth Year: </strong>${persons.birth_year}</li>
+                <li><strong>Height: </strong>${persons.height}</li>
+                <li><strong>Mass: </strong>${persons.mass}</li>
+                <li><strong>Hair Color: </strong>${persons.hair_color}</li>
+                <li><strong>Skin Color: </strong>${persons.skin_color}</li>
+                <li><strong>Eye Color: </strong>${persons.eye_color}</li>
             </ul>
         </div>
     `;
@@ -116,9 +119,9 @@ let activatedItem = function(num) {
     let number = num;
     let itemActivate = document.getElementById('item-' + num);
 
-    itemActivate.classList.add("activated");
+    itemActivate.classList.add("activate");
     if (number !== num) {
-        itemActivate.classList.remove("activated");
+        itemActivate.classList.remove("activate");
     }
 }
 
@@ -168,7 +171,10 @@ let loadData = function(mainApi, size, itemNum) {
         pageNum = itemNum
         totalPage(pageNum, size);
     } else {
-        if (size !== 0) totalPage(pageNum, size);
+        if (size !== 0) {
+            totalPage(pageNum, size);
+            activatedItem(pageNum)
+        } 
     }
 }
 
