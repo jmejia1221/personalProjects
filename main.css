@@ -1,0 +1,22 @@
+body, html, ul {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: Helvetica, sans-serif, Arial;
+    color: #fff;
+    background-color: #000000
+}
+
+ul > li {
+    list-style: none;
+}
+
+.title {
+    text-indent: -99999px;
+    background-image: url(assets/swapi-logo.png);
+    width: 350px;
+    height: 40px;
+    margin: 0 auto;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
