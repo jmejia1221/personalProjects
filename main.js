@@ -1,6 +1,7 @@
 const swApi = 'https://www.swapi.co/api/people/'
 const pageSize = 9;
 var pageNum = 1;
+var searchButton = false;
 
 const get = function(url) {
     return new Promise ((resolve, reject) => {
@@ -32,7 +33,6 @@ function _handleError(err){
 
 // Templates
 let person = function(persons) {
-    console.log(persons);
     return `
         <div class="building-block">
             <h4 class="building-block__name">${persons.name}</h4>
@@ -51,7 +51,8 @@ let person = function(persons) {
 // Search
 
 let searchPeople = function() {
-    let inputSearch = document.getElementById("search").value
+    let inputSearch = document.getElementById("search").value;
+    searchButton = true;
 
     if (inputSearch !== '') {
         loadData(swApi + '?search=' + inputSearch, 0)
@@ -70,6 +71,37 @@ window.addEventListener('keydown', (e) => {
     }
 })
 
+let searchFocus = function() {
+    let searchInput = document.getElementById('search-people');
+    let clearInput = document.getElementById('clear-input');
+
+    searchInput.classList.remove('visible');
+    clearInput.classList.add('visible');
+}
+
+let clearInput = function() {
+    let search = document.getElementById('search');
+
+    search.value = '';
+
+    toggleSearchIcon();
+
+    if (searchButton === true) {
+        searchButton = false;
+        loadData(swApi, pageSize)
+        search.focus();
+    }
+}
+
+let toggleSearchIcon = function() {
+    let searchInput = document.getElementById('search-people');
+    let clearInput = document.getElementById('clear-input');
+
+    setTimeout(() => {
+        searchInput.classList.add('visible');
+        clearInput.classList.remove('visible');
+    }, 100)
+}
 // Pagination
 
 let totalPage = function(num, size) {
@@ -173,9 +205,11 @@ let loadData = function(mainApi, size, itemNum) {
     } else {
         if (size !== 0) {
             totalPage(pageNum, size);
+            pageNum = 1
             activatedItem(pageNum)
         } 
     }
+
 }
 
 loadData(swApi, pageSize)

@@ -13,8 +13,11 @@
 
     <main id="content">
         <div class="search">
-            <input type="text" placeholder="Searh..." id="search">
-            <button onclick="searchPeople()">Search</button>
+            <input type="text" placeholder="Searh Star Wars..." onfocus="searchFocus()" onfocusout="toggleSearchIcon()" id="search">
+            <div class="search__button">
+                <button id="search-people" class="search-people visible" onclick="searchPeople()"></button>
+                <button id="clear-input" class="clear-input" onclick="clearInput()"></button>
+            </div>
         </div>
 
         <section id="people" class="container"></section>
