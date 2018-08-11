@@ -1,12 +1,15 @@
-body, html, ul {
+body, html {
     margin: 0;
     padding: 0;
     font-size: 16px;
     font-family: Helvetica, sans-serif, Arial;
     color: #fff;
-    background-color: #000000
+    background-color: #151515;
 }
-
+ul, h1, h2, h3, h4 {
+    margin: 0;
+    padding: 0;
+}
 ul > li {
     list-style: none;
 }
@@ -16,7 +19,44 @@ ul > li {
     background-image: url(assets/swapi-logo.png);
     width: 350px;
     height: 40px;
-    margin: 0 auto;
+    margin: 50px auto 0;
     background-size: 100% 100%;
     background-repeat: no-repeat;
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: row wrap
+}
+.building-block {
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+    flex-grow: 1;
+    background: #ccc;
+}
+.search {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+}
+.search input {
+    width: 400px;
+    padding: 10px;
+}
+.search button {
+    width: 100px;
+    border: none;
+    cursor: pointer;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+.pagination ul {
+    display: flex;
+    justify-content: center;
+}
+.pagination ul li {
+    width: 30px;
 }

@@ -33,13 +33,15 @@ function _handleError(err){
 // Templates
 let person = function(persons) {
     return `
-        <h4>${persons.name}</h4>
-        <ul>
-            <li>${persons.height}</li>
-            <li>${persons.mass}</li>
-            <li>${persons.hair_color}</li>
-            <li>${persons.skin_color}</li>
-        </ul>
+        <div class="building-block">
+            <h4>${persons.name}</h4>
+            <ul>
+                <li>${persons.height}</li>
+                <li>${persons.mass}</li>
+                <li>${persons.hair_color}</li>
+                <li>${persons.skin_color}</li>
+            </ul>
+        </div>
     `;
 }
 

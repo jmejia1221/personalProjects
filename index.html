@@ -8,15 +8,17 @@
     <title>Swapi</title>
 </head>
 <body>
-    <h1 class="title">
-         Star Wars</h1>
+    <h1 class="title">Star Wars</h1>
+
     <main id="content">
-        <input type="text" placeholder="Searh..." id="search">
-        <button onclick="searchPeople()">Search</button>
-        <section id="people"></section>
+        <div class="search">
+            <input type="text" placeholder="Searh..." id="search">
+            <button onclick="searchPeople()">Search</button>
+        </div>
+        <section id="people" class="container"></section>
 
 
-        <div id="countNumbers"></div>
+        <div id="countNumbers" class="pagination"></div>
     </main>
 
     <script src="main.js"></script>
