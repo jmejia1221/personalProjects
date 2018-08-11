@@ -69,13 +69,14 @@ let searchPeople = function() {
     }
 }
 
-window.addEventListener('keydown', (e) => {
+window.addEventListener('keyup', (e) => {
     if (e.defaultPrevented) {
         return
     }
 
     if (e.keyCode === 13) {
         searchPeople()
+        document.getElementById('searchIn').classList.add('hide');
     }
 })
 
@@ -85,20 +86,6 @@ let searchFocus = function() {
 
     searchIcon.classList.remove('visible');
     clearInput.classList.add('visible');
-}
-
-let clearInput = function() {
-    let search = document.getElementById('search');
-
-    search.value = '';
-
-    toggleSearchIcon();
-
-    if (searchButton === true) {
-        searchButton = false;
-        loadData(swApi, pageSize)
-        search.focus();
-    }
 }
 
 let toggleSearchIcon = function() {
@@ -111,10 +98,26 @@ let toggleSearchIcon = function() {
     }, 100)
 }
 
+let clearInput = function() {
+    let search = document.getElementById('search');
+
+    document.getElementById('searchIn').innerHTML = "";
+    search.value = '';
+
+    toggleSearchIcon();
+
+    if (searchButton === true) {
+        searchButton = false;
+        loadData(swApi, pageSize)
+        search.focus();
+    }
+}
+
+
 let keySearch = function() {
+    document.getElementById('searchIn').classList.remove('hide');
     setTimeout(() => {
         let search = document.getElementById('search').value;
-        let searchIn = document.getElementById('searchIn');
         searchData(swApi + '?search=' + search, 0)
     }, 1000)
     
