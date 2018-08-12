@@ -33,9 +33,12 @@ function _handleError(err){
 
 // Templates
 let person = function(persons) {
+    let filterPerson = persons.name.replace(/ /g,'&')
+
+    let urlPerson = swApi + '?search=' + filterPerson
     return `
         <div class="building-block">
-            <h4 class="building-block__name">${persons.name}</h4>
+            <h4 class="building-block__name" onclick="searchLink('${persons.name}')">${persons.name}</h4>
             <ul class="building-block__info">
                 <li><strong>Birth Year: </strong>${persons.birth_year}</li>
                 <li><strong>Height: </strong>${persons.height}</li>
@@ -51,14 +54,14 @@ let person = function(persons) {
 let dataPerson = function(persons) {
     return `
         <div class="building-block">
-            <h4 class="building-block__name">${persons.name}</h4>
+            <h4 class="building-block__name" onclick="searchLink('${persons.name}')">${persons.name}</h4>
         </div>
-        `
+    `;
 }
 
 // Search
 
-let searchPeople = function() {
+let searchPeople = function(person) {
     let inputSearch = document.getElementById("search").value;
     searchButton = true;
 
@@ -69,6 +72,13 @@ let searchPeople = function() {
     }
 }
 
+let searchLink = function(searchPerson) {
+    console.log(searchPerson)
+    let filterPerson = searchPerson.replace(/ /g,'&');
+
+    loadData(swApi + '?search=' + filterPerson, 0)
+}
+
 window.addEventListener('keyup', (e) => {
     if (e.defaultPrevented) {
         return
@@ -76,7 +86,7 @@ window.addEventListener('keyup', (e) => {
 
     if (e.keyCode === 13) {
         searchPeople()
-        document.getElementById('searchIn').classList.add('hide');
+        document.getElementById('searchIn').classList.add('search-hide');
     }
 })
 
@@ -92,10 +102,12 @@ let toggleSearchIcon = function() {
     let searchIcon = document.getElementById('search-people');
     let clearInput = document.getElementById('clear-input');
 
+
     setTimeout(() => {
         searchIcon.classList.add('visible');
         clearInput.classList.remove('visible');
-    }, 100)
+        document.getElementById('searchIn').classList.add('search-hide');
+    }, 300)
 }
 
 let clearInput = function() {
@@ -115,13 +127,11 @@ let clearInput = function() {
 
 
 let keySearch = function() {
-    document.getElementById('searchIn').classList.remove('hide');
+    document.getElementById('searchIn').classList.remove('search-hide');
     setTimeout(() => {
         let search = document.getElementById('search').value;
         searchData(swApi + '?search=' + search, 0)
-    }, 1000)
-    
-    console.log(searchData(swApi + '?search=' + search, 0))
+    }, 800)
 }
 // Pagination
 
